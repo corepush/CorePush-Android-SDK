@@ -117,6 +117,7 @@ public class C2DMReceiver extends BroadcastReceiver {
             else if (regId!=null) {
             	toast(context, "regId:" + regId);
 				SharedPreferences sharedPreferences = context.getSharedPreferences("CorePushSample", Context.MODE_PRIVATE);
+				SharedPreferences.Editor editor = sharedPreferences.edit();
 				
        			List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
     			nameValuePair.add(new BasicNameValuePair("config_key", CONFIG_KEY)); //config_keyパラメータ(必須)。設定キー。
@@ -125,8 +126,8 @@ public class C2DMReceiver extends BroadcastReceiver {
     			nameValuePair.add(new BasicNameValuePair("category_id", "1")); //category_idパラメータ。カテゴリID。2桁の整数の配列(初期値:1)。
     			nameValuePair.add(new BasicNameValuePair("mode", "1")); //modeパラメータ。デバイストークン(登録:1/削除:2)
     			
-    			sharedPreferences.edit().putString("DEVICE_TOKEN_STRING", regId);
-    			sharedPreferences.edit().commit();
+    			editor.putString("DEVICE_TOKEN_STRING", regId);
+    			editor.commit();
     			
     			
             	JSONObject data;
@@ -157,7 +158,6 @@ public class C2DMReceiver extends BroadcastReceiver {
 					return;
 				}
 				
-				SharedPreferences.Editor editor = sharedPreferences.edit();
             	if(status == 0){ 
 	   				toast(context,"通知をONにしました");
 	   				editor.putBoolean("enablePushNotification", true);
