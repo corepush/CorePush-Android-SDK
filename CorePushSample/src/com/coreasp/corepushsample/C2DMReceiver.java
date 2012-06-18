@@ -68,10 +68,9 @@ public class C2DMReceiver extends BroadcastReceiver {
             	SharedPreferences sharedPreferences = context.getSharedPreferences("CorePushSample",Context.MODE_PRIVATE);
     			nameValuePair.add(new BasicNameValuePair("config_key", CONFIG_KEY)); //config_keyパラメータ(必須)。設定キー。
     			nameValuePair.add(new BasicNameValuePair("device_token", sharedPreferences.getString("DEVICE_TOKEN_STRING",""))); //device_tokenパラメータ(必須)。デバイストークン(通知送信用のID)。
-    			//nameValuePair.add(new BasicNameValuePair("device_id", sharedPreferences.getString("DEVICE_ID",""))); //device_idパラメータ。UDID(初期値:1)。
-    			//nameValuePair.add(new BasicNameValuePair("category_id", "1")); //device_idパラメータ。UDID(初期値:1)。
+    			nameValuePair.add(new BasicNameValuePair("device_id", "1")); //device_idパラメータ。UDID(初期値:1)。
+    			nameValuePair.add(new BasicNameValuePair("category_id", "1")); //category_idパラメータ。カテゴリID。2桁の整数の配列(初期値:1)。
     			nameValuePair.add(new BasicNameValuePair("mode", "2")); //modeパラメータ。デバイストークン(登録:1/削除:2)
-    			nameValuePair.add(new BasicNameValuePair("type", "2")); //typeパラメータ。OSの種類(iPhone:1/Android:2)
             	JSONObject data;
             	URI uri;
 				try {
@@ -122,10 +121,9 @@ public class C2DMReceiver extends BroadcastReceiver {
        			List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
     			nameValuePair.add(new BasicNameValuePair("config_key", CONFIG_KEY)); //config_keyパラメータ(必須)。設定キー。
     			nameValuePair.add(new BasicNameValuePair("device_token", regId)); //device_tokenパラメータ(必須)。デバイストークン(通知送信用のID)。
-    			//nameValuePair.add(new BasicNameValuePair("device_id", sharedPreferences.getString("DEVICE_ID",""))); //device_idパラメータ。UDID(初期値:1)。
-    			//nameValuePair.add(new BasicNameValuePair("category_id", "1")); //device_idパラメータ。UDID(初期値:1)。
+    			nameValuePair.add(new BasicNameValuePair("device_id", "1")); //device_idパラメータ。UDID(初期値:1)。
+    			nameValuePair.add(new BasicNameValuePair("category_id", "1")); //category_idパラメータ。カテゴリID。2桁の整数の配列(初期値:1)。
     			nameValuePair.add(new BasicNameValuePair("mode", "1")); //modeパラメータ。デバイストークン(登録:1/削除:2)
-    			nameValuePair.add(new BasicNameValuePair("type", "2")); //typeパラメータ。OSの種類(iPhone:1/Android:2)
     			
     			sharedPreferences.edit().putString("DEVICE_TOKEN_STRING", regId);
     			sharedPreferences.edit().commit();
