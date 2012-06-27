@@ -1,0 +1,6 @@
+<h1>AndroidCorePushSample</h1><h2>概要</h2><p>AndroidCorePushSample は、プッシュ通知ASPサービス「<a href="http://core-asp.com/">CORE PUSH</a>」のAndroid用のサンプルプロジェクトになります。</p><h2>クイックスタート</h2>
+<h3>C2DM用のアカウントIDの登録</h3>
+<a href="http://code.google.com/intl/ja/android/c2dm/signup.html">Sign Up for C2DM</a> でアカウントIDの
+登録を行ってください。<h3>C2DM用のAuthKeyの作成</h3><a href="http://code.google.com/intl/ja/android/c2dm/signup.html">AuthKey作成</a> の手順を参考にAuthKeyを取得し、取得したAuthKeyをAndroidの証明書設定画面で設定してください。<h3>設定キーの設定</h3><p><a href="http://core-asp.com/login.php">Core Push管理画面</a> にログインし、ホーム画面からAndroidアプリの設定キーを確認してください。この設定キーをC2DMReceiver.java の CONFIG_KEY の定数に指定します。</p><pre><code>private static String CONFIG_KEY = "9b8cdedbfa669cf03c31c4f1807ddcce";</code></pre> <h3>C2DM用のアカウントIDの設定</h3><p>C2DM用のアカウントIDの登録で入力したGoogleアカウントのメールアドレスを確認してください。このメールアドレスを NotificationActivity.java の deviceEntryメソッド内の senderキーの値に指定します。 </p><pre><code>intent.putExtra("sender","sample@core-asp.com"); </code></pre></article>
+<h2>API</h2>
+<a href="http://core-asp.com/corepush/api.php">http://core-asp.com/corepush/api.php</a> を参照してください。
