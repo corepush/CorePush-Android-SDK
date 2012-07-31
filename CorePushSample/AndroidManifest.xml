@@ -5,10 +5,14 @@
     android:versionName="1.0" >
 
     <!-- SDKの最小のAPIレベルを指定。C2DMはAPIレベル8以上で動作可能 -->
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="16"/>
     
     <!-- インターネット接続のパーミッション設定 -->
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- Keeps the processor from sleeping when a message is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     
     <!-- 通知時のバイブレーションのパーミッション設定  -->
 	<uses-permission android:name="android.permission.VIBRATE" /> 
@@ -33,20 +37,19 @@
             </intent-filter>
         </activity>
         
-        <!-- C2DM用のブロードキャストレシーバーを設定 -->
-		<receiver
-            android:name=".C2DMReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-
+        <!-- GCM用のブロードキャストレシーバーを設定 -->
+        <receiver
+            android:name="com.coreasp.CorePushBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
+                <!-- Receives the actual messages. -->
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.coreasp.corepushsample" />
-            </intent-filter>
-            <intent-filter>
+                <!-- Receives the registration id. -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
                 <category android:name="com.coreasp.corepushsample" />
             </intent-filter>
         </receiver>
+        <service android:name="com.coreasp.CorePushIntentService" />
     </application>
 
 </manifest>
