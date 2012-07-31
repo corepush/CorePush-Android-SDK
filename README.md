@@ -2,7 +2,14 @@
 
 ##概要
 
-Core Push Android SDK は、プッシュ通知ASPサービス「CORE PUSH」の Android用のSDKになります。##動作条件
+Core Push Android SDK は、プッシュ通知ASPサービス「CORE PUSH」の Android用のSDKになります。ドキュメントは CORE PUSH Developer サイトに掲載しております。
+
+ 
+■公式サイト
+
+CORE PUSH：<a href="http://core-asp.com">http://core-asp.com</a>
+
+CORE PUSH Developer（開発者向け）：<a href="http://developer.core-asp.com">http://developer.core-asp.com</a>##動作条件
 * GCM方式による通知はAndroid2.2以上が動作対象になります。* SDK/Eternal/gcm.jar をプロジェクトのlibsフォルダにコピーしてください。* SDK/corepush.jar を プロジェクトの libsフォルダにコピーしてください。##アプリの通知設定
 
 Core Push Android SDKを利用するための設定を行います。
