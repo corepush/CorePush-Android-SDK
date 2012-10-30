@@ -10,7 +10,8 @@ Core Push Android SDK は、プッシュ通知ASPサービス「CORE PUSH」の 
 CORE PUSH：<a href="http://core-asp.com">http://core-asp.com</a>
 
 CORE PUSH Developer（開発者向け）：<a href="http://developer.core-asp.com">http://developer.core-asp.com</a>##動作条件
-* GCM方式による通知はAndroid2.2以上が動作対象になります。* SDK/Eternal/gcm.jar をプロジェクトのlibsフォルダにコピーしてください。* SDK/corepush.jar を プロジェクトの libsフォルダにコピーしてください。##アプリの通知設定
+* GCM方式による通知はAndroid2.2以上が動作対象になります。* SDK/Eternal/gcm.jar をプロジェクトのlibsフォルダにコピーしてください。* SDK/corepush.jar を プロジェクトの libsフォルダにコピーしてください。
+* リッチ通知の動作は、サンプルのCorePushRichSampleプロジェクトでご確認できます。##アプリの通知設定
 
 Core Push Android SDKを利用するための設定を行います。
 
@@ -82,4 +83,127 @@ CORE PUSH にデバイストークンを登録するには、CorePushManager#reg
 CORE PUSH からデバイストークンを削除するには、CorePushManager#removeToken を呼び出します。
 	CorePushManager.getInstance().removeToken(this);		
 本メソッドはON/OFFスイッチなどで通知をOFFにする場合に使用してください。
+
+##通知履歴の表示
+
+
+###通知履歴の取得
+CorePushNotificationHistoryManager#execute を呼び出すことで通知履歴を最大100件取得できます。
+
+		CorePushNotificationHistoryManager manager = new CorePushNotificationHistoryManager(this);
+    	
+    	//コールバックリスナーを設定
+    	manager.setListener(this);
+    	
+    	//プログレスダイアログを表示
+    	manager.setProgressDialog(true);
+    	
+    	//通知履歴取得リクエストの実行
+    	manager.execute();
+
+取得した通知履歴のオブジェクトの配列は、CorePushNotificationHistoryManager#notificationHistoryModelArray に格納されます。
+
+		ArrayList<CorePushNotificationHistoryModel> historyModelList = (ArrayList<CorePushNotificationHistoryModel>) CorePushNotificationHistoryManager.getNotificationHistoryModelList();
+	
+  
+上記の配列により、個々の通知履歴の CorePushNotificationHistoryModel オブジェクトを取得できます。CorePushNotificationHistoryModelオブジェクトには、履歴ID、通知メッセージ、通知日時、リッチ通知URLが格納されます。
+
+		// 例) 451
+		NSString historyId = historyMode.getHistoryId();
+	
+		// 例) CORE PUSH からのお知らせ!
+		NSString message = historyMode.getMessage();
+
+		// 例) http://core-asp.com
+		NSString* url = historyModel.getUrl();
+
+		// 例) 2012-08-18 17:48:30
+		NSString* regDate = historyModel.getRegDate();
+
+
+##リッチ通知画面(ポップアップウインドウ)の表示
+
+リッチ通知を受信した場合は、通知から起動したアクティビティ内のIntentオブジェクトにリッチ通知用のURLが含まれます。リッチ通知用のURLは、以下の方法でIntentオブジェクトから取得できます。
+
+	    	//リッチ通知のURLを取得
+    		String url = CorePushManager.getInstance().getUrl(intent);
+	
+上記のURLをリッチ通知画面で表示するには、レイアウトファイルの rich_windows を使用します。
+以下は CorePushRichSampleプロジェクトからの抜粋になります。
+
+			//ポップアウトウインドウをレイアウトファイルから取得
+			LinearLayout window = (LinearLayout) findViewById(R.id.rich_windows);
+			window.setVisibility(View.VISIBLE);
+			window.startAnimation(AnimationUtils.loadAnimation(getBaseContext(),
+					R.anim.fadein));
+			
+			// 閉じるボタンタップ時の動作を定義
+			Button clouse = (Button) findViewById(R.id.clouse);
+			clouse.setOnClickListener(new OnClickListener() {
+
+				public void onClick(View v) {
+					LinearLayout window = (LinearLayout) findViewById(R.id.rich_windows);
+					window.setVisibility(View.GONE);
+				}
+			});
+
+			// タイトルを設定
+			TextView title = (TextView) findViewById(R.id.title);
+			title.setText("CorePushSample からのお知らせ");
+
+			// WebViewを作成
+			final WebView webview = (WebView) findViewById(R.id.web);
+			webview.getSettings().setUseWideViewPort(true);
+			webview.getSettings().setLoadWithOverviewMode(true);
+			webview.setVerticalScrollbarOverlay(true); 
+			webview.getSettings().setJavaScriptEnabled(true);
+			webview.loadUrl(url);
+			webview.setInitialScale(50);
+			webview.setOnTouchListener(new OnTouchListener() {
+				public boolean onTouch(View v, MotionEvent event) {
+					if (event.getAction() == MotionEvent.ACTION_DOWN) {
+						AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+								HomeActivity.this);
+						// ダイアログの設定
+						alertDialog.setTitle("確認"); 
+						alertDialog.setMessage("ブラウザを起動します。よろしいでしょうか。"); 
+						// いいえボタンの設定
+						alertDialog.setPositiveButton("いいえ",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int which) {
+
+									}
+								});
+						// はいボタンの設定
+						alertDialog.setNeutralButton("はい",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int which) {
+
+										Uri uri = Uri.parse(url);
+										Intent i = new Intent(
+												Intent.ACTION_VIEW, uri);
+										startActivity(i);
+
+									}
+								});
+						// ダイアログの表示
+						alertDialog.setCancelable(true);
+						alertDialog.show();
+					}
+					return true;
+				}
+			});
+			webview.setWebViewClient(new WebViewClient() {
+				public void onReceivedError(WebView view, int errorCode,
+						String description, String failingUrl) {
+					
+					super.onReceivedError(view, errorCode, description,
+							failingUrl);
+				}
+			});
+		}
+
+
 				
