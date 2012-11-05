@@ -225,10 +225,11 @@ CorePushManager#setCategoryIds で カテゴリID(文字列型)のリストを�
 
     List<String> categoryIds = new ArrayList<String>();
     
-    categoryIds.add("カテゴリ_01");
-    categoryIds.add("カテゴリ_02");
-    categoryIds.add("カテゴリ_04");
-    categoryIds.add("カテゴリ_06");
+    //1:北海道、2:東北 3:関東、4:近畿
+    categoryIds.add("1");
+    categoryIds.add("2");
+    categoryIds.add("3");
+    categoryIds.add("4");
     
     CorePushManager.getInstance().setCategoryIds(categoryIds);
     
