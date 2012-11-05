@@ -206,4 +206,77 @@ CorePushNotificationHistoryManager#execute を呼び出すことで通知履歴�
 		}
 
 
-				
+##現在位置情報の送信
+
+CorePushManager#reportCurrentLocation 、現在の位置情報(緯度、経度)をパラメータに付加し、CORE PUSHサーバにデバイストークンの送信を行います。
+
+    //現在地の位置情報を送信する。
+    CorePushManager.getInstance().reportCurrentLocation(this);
+    
+位置情報を取得するには、ApplicationManifest.xml に 以下のパーミッションを設定する必要があります。
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+	
+
+##カテゴリの設定
+デバイストークン登録APIの category_id パラメータの設定を行うことができます。パラメータの設定を行うには、
+CorePushManager#setCategoryIds で カテゴリID(文字列型)のリストを指定します。以下はカテゴリIDのリストの作成例になります。
+
+    List<String> categoryIds = new ArrayList<String>();
+    
+    categoryIds.add("カテゴリ_01");
+    categoryIds.add("カテゴリ_02");
+    categoryIds.add("カテゴリ_04");
+    categoryIds.add("カテゴリ_06");
+    
+    CorePushManager.getInstance().setCategoryIds(categoryIds);
+    
+上記カテゴリの設定後にデバイストークンを送信した場合、設定したcategory_id パラメータの値をCORE PUSHサーバにPOSTします。
+(category_idパラメータを設定しない場合のデフォルト値は 1 になります。)
+    
+##ユーザー間プッシュ通知
+ユーザー間のプッシュ通知を実現するには、事前にアプリ側でユーザーのデバイストークンのCORE PUSHへの登録とユーザー属性の御社サーバへの登録を行う必要があります。全体のイメージ図につきましては、<a href="http://developer.core-asp.com/api_image.php">http://developer.core-asp.com/api_image.php</a> をご参照ください。
+### CORE PUSHへのデバイストークンの登録
+
+デバイストークンの登録を行う前に、CorePushManager#setAppUserIdでアプリ内のユーザーIDを指定します。
+	//アプリ内でのユーザーの識別IDを登録
+	CorePushManager.getInstance().setAppUserId("userid");
+	//デバイストークンの登録	CorePushManager manager = CorePushManager.getInstance();
+	manager.registToken(SettingActivity.this);
+  
+上記により、api.core-asp.com/android_token_regist.php のトークン登録APIに
+対して、app_user_id のパラメータが送信され、アプリ内でのユーザーの識別IDとデバイストークンが
+紐づいた形でDBに保存されます。
+  ### 御社サーバへのユーザー属性の登録
+CorePushRegisterUserAttributeManager#execute: で御社サーバにユーザー属性の登録を行う前に
+、CorePushManager#setAppUserIdでアプリ内でのユーザーの識別IDを指定します。	//アプリ内でのユーザーの識別IDを登録
+	CorePushManager.getInstance().setAppUserId("userid");
+
+
+ユーザー属性を定義したリストを作成します。
+   
+    //ユーザー属性の配列を作成。例) 1:いいね時の通知許可、3:コメント時の通知許可、7:フォロー時の通知許可
+   
+    List attributes = new ArrayList();
+    attributes.add("1");
+    attributes.add("3");
+    attributes.add("7");
+
+ユーザー属性を送信する御社サーバ上の任意のURLを指定します。
+
+	//ユーザー属性を送信する御社の任意のURLを指定
+    String userAttributeApi = @"ユーザ属性を送信する御社の任意のURL";
+
+作成したユーザー属性を定義した配列とユーザー属性を送信するAPIのURLを引数として、CorePushRegisterUserAttributeManagerオブジェクトを生成します。
+
+	CorePushRegisterUserAttributeManager attributeManager = new 	CorePushRegisterUserAttributeManager(this, attributes, userAttributeApi);
+
+上記で作成したCorePushRegisterUserAttributeManagerオブジェクトのexecuteメソッドを呼び出すことで、アプリ内でのユーザーの識別IDとユーザー属性を御社サーバに送信します。
+
+	//アプリ内でのユーザーの識別IDとユーザー属性の送信
+    attributeManager.execute();
+
+特定のユーザーに対してプッシュ通知を行うには、通知送信リクエストAPIに対して、御社サーバから通知の送信依頼
+を行います。詳細につきましては、<a href="http://developer.core-asp.com/api_request.php">http://developer.core-asp.com/api_request.php</a> をご参照ください。
+		
