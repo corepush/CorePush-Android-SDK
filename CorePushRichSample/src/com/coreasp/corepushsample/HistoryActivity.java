@@ -12,11 +12,12 @@ import android.widget.TextView;
 import com.coreasp.CorePushNotificationHistoryManager;
 import com.coreasp.CorePushNotificationHistoryManagerListener;
 import com.coreasp.CorePushNotificationHistoryModel;
+import com.coreasp.CorePushRegisterUserAttributeManagerListener;
 
 /**
  *　通知履歴を表示するアクティビティ
  */
-public class HistoryActivity extends ListActivity implements CorePushNotificationHistoryManagerListener {
+public class HistoryActivity extends ListActivity implements CorePushNotificationHistoryManagerListener,CorePushRegisterUserAttributeManagerListener  {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,18 @@ public class HistoryActivity extends ListActivity implements CorePushNotificatio
      */
 	@Override
 	public void notificationHistoryManagerFail() {
+		
+	}
+
+	@Override
+	public void registerUserAttributeManagerFail() {
+		
+		
+	}
+
+	@Override
+	public void registerUserAttributeManagerSuccess() {
+
 		
 	}
 

@@ -33,7 +33,7 @@ public class HomeActivity extends TabActivity {
         CorePushManager manager = CorePushManager.getInstance();
         
         //設定キーを指定
-        manager.setConfigKey("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        manager.setConfigKey("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 
         //senderId(projectId)を指定
         manager.setSenderId("0123456789");
@@ -43,6 +43,9 @@ public class HomeActivity extends TabActivity {
         
         //通知アイコンを指定
         manager.setIconResourceId(R.drawable.sample_0);
+        
+//        //アプリ内のユーザーIDを指定
+//        CorePushManager.getInstance().setAppUserId("userid");
         
         // 通知センターから起動時に通知パラメータを取得
         Intent intent = getIntent();
@@ -167,4 +170,3 @@ public class HomeActivity extends TabActivity {
     }
     
 }
-

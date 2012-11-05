@@ -1,11 +1,11 @@
 package com.coreasp.corepushsample;
 
+import com.coreasp.CorePushManager;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
-
-import com.coreasp.CorePushManager;
 
 /**
  * 通知設定画面のアクティビティ
