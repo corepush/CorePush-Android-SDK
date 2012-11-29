@@ -220,8 +220,10 @@ CorePushManager#reportCurrentLocation 、現在の位置情報(緯度、経度)�
 	
 
 ##カテゴリの設定
+###１次元カテゴリ設定
 デバイストークン登録APIの category_id パラメータの設定を行うことができます。パラメータの設定を行うには、
-CorePushManager#setCategoryIds で カテゴリID(文字列型)のリストを指定します。以下はカテゴリIDのリストの作成例になります。
+CorePushManager#setCategoryIds で カテゴリID(文字列型)のリストを指定します。以下はカテゴリIDのリストの作成例になります。<br/>
+※例は事前に管理画面で1から4までのカテゴリを設定しておいたものとする。
 
     List<String> categoryIds = new ArrayList<String>();
     
@@ -235,6 +237,22 @@ CorePushManager#setCategoryIds で カテゴリID(文字列型)のリストを�
     
 上記カテゴリの設定後にデバイストークンを送信した場合、設定したcategory_id パラメータの値をCORE PUSHサーバにPOSTします。
 (category_idパラメータを設定しない場合のデフォルト値は 1 になります。)
+
+###２次元カテゴリ設定
+デバイストークン登録APIの category_id パラメータの設定を行うことができます。パラメータの設定を行うには、
+CorePushManager#setMultiCategoryIds で カテゴリIDのマップを指定します。以下はカテゴリIDのマップの作成例になります。<br/>
+※例は事前に管理画面で1から4までのカテゴリを設定しておいたものとする。
+
+	Map<String, List<String>> multiCategoryIds = new HashMap<String, List<String>>();
+	multiCategoryIds.put("1", Arrays.asList(new String[]{"神奈川"})); //地域が「神奈川」の場合
+	multiCategoryIds.put("2", Arrays.asList(new String[]{"男性"}));   //性別が「男性」の場合
+	multiCategoryIds.put("3", Arrays.asList(new String[]{"20代"}));   //年代が「20代」の場合
+	multiCategoryIds.put("4", Arrays.asList(new String[]{"音楽", "読書"})); //好きなジャンルが「音楽」と「読書」の場合
+	CorePushManager.getInstance().setMultiCategoryIds(multiCategoryIds);
+    
+上記カテゴリの設定後にデバイストークンを送信した場合、設定したcategory_id パラメータの値をCORE PUSHサーバにPOSTします。
+(1次元カテゴリと2次元カテゴリの両方が設定されている場合、category_id パラメータには２次元カテゴリの設定が優先されます。category_idパラメータを設定しない場合のデフォルト値は 1 になります。)
+    
     
 ##ユーザー間プッシュ通知
 ユーザー間のプッシュ通知を実現するには、事前にアプリ側でユーザーのデバイストークンのCORE PUSHへの登録とユーザー属性の御社サーバへの登録を行う必要があります。全体のイメージ図につきましては、<a href="http://developer.core-asp.com/api_image.php">http://developer.core-asp.com/api_image.php</a> をご参照ください。
