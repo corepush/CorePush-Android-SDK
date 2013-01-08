@@ -298,4 +298,22 @@ CorePushManager#setMultiCategoryIds で カテゴリIDのマップを指定し�
 
 特定のユーザーに対してプッシュ通知を行うには、通知送信リクエストAPIに対して、御社サーバから通知の送信依頼
 を行います。詳細につきましては、<a href="http://developer.core-asp.com/api_request.php">http://developer.core-asp.com/api_request.php</a> をご参照ください。
-		
+
+
+## アクセス解析
+
+### 通知からの起動数の把握
+
+通知からのアプリの起動時にアクセス解析用のパラメータをCORE PUSHサーバに対して送信することで、管理画面の通知履歴から通知からの起動数を把握することができます。
+
+アクセス解析用のパラメータを CORE PUSHサーバに対して送信するには、通知から起動される Intentオブジェクトから CorePushManager#getPushIdで通知IDを取得し、CorePushAppLaunchAnalyticsManager#executeで
+通知IDを送信します。executeメソッドの引数には デバイストークン、設定キー、通知ID、緯度、経度の値を順に指定します。アプリ起動時の緯度・経度を送信しない場合は、0を指定します。
+
+		//intentオブジェクトから通知IDを取得する
+        String pushId = manager.getPushId(intent);
+        
+        if (pushId != null) {
+        	CorePushAppLaunchAnalyticsManager analyticsManager = new CorePushAppLaunchAnalyticsManager(this);
+        	analyticsManager.execute(manager.getToken(this), CONFIG_KEY ,pushId, "0", "0");
+        }
+

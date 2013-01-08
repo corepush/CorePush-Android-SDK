@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.coreasp.CorePushAppLaunchAnalyticsManager;
 import com.coreasp.CorePushManager;
 
 public class NotificationActivity extends Activity {
@@ -42,6 +43,14 @@ public class NotificationActivity extends Activity {
         String title = manager.getTitle(intent);
         String message = manager.getMessage(intent);
         String url = manager.getUrl(intent);
+        
+        //intentオブジェクトから通知IDを取得する
+        String pushId = manager.getPushId(intent);
+
+        if (pushId != null) {
+	    CorePushAppLaunchAnalyticsManager analyticsManager = new CorePushAppLaunchAnalyticsManager(this);
+            analyticsManager.execute(manager.getToken(this), "XXXXXXXXXXXXXXXXX" ,pushId, "0", "0");
+        }
     }
     
 }

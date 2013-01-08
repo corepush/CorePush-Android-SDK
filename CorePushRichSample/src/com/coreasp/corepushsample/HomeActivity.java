@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.coreasp.CorePushAppLaunchAnalyticsManager;
 import com.coreasp.CorePushManager;
 
 /**
@@ -52,7 +53,15 @@ public class HomeActivity extends TabActivity {
 //        String date = manager.getDate(intent);
 //        String title = manager.getTitle(intent);
 //        String message = manager.getMessage(intent);
-//        String url = manager.getUrl(intent);   
+//        String url = manager.getUrl(intent);
+        
+	//intentオブジェクトから通知IDを取得する
+        String pushId = manager.getPushId(intent);
+
+        if (pushId != null) {
+            CorePushAppLaunchAnalyticsManager analyticsManager = new CorePushAppLaunchAnalyticsManager(this);
+            analyticsManager.execute(manager.getToken(this), "XXXXXXXXXXXXXXXXX" ,pushId, "0", "0");
+        }
        
         //タブ画面を初期化
         this.initTabs();
