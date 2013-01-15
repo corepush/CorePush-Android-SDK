@@ -316,4 +316,15 @@ CorePushManager#setMultiCategoryIds で カテゴリIDのマップを指定し�
         	CorePushAppLaunchAnalyticsManager analyticsManager = new CorePushAppLaunchAnalyticsManager(this);
         	analyticsManager.execute(manager.getToken(this), CONFIG_KEY ,pushId, "0", "0");
         }
+        
+## プッシュ通知の送信エラー
+
+###エラー内容の把握
+
+プッシュ通知の送信に失敗した場合、管理画面の送信履歴のエラー数のリンク先からエラー画面を確認できます。
+エラー区分としては下記に分類されます。
+
+1. アプリ削除でトークンが無効となった場合や、形式不正なトークンなどによるエラー
+2. 上記以外のエラー（通信失敗、その他）
+
 
