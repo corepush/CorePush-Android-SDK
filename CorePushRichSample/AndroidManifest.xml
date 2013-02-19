@@ -46,6 +46,11 @@
         
       　<!-- 履歴画面のアクティビティを設定 -->
         <activity android:name=".HistoryActivity"/>
+		
+        <!--  プッシュ通知のダイアログ用のアクティビティ -->
+		<activity android:name="com.coreasp.CorePushDialog" android:theme="@android:style/Theme.Dialog">
+		</activity>
+
         
         <!-- GCM用のブロードキャストレシーバーを設定 -->
         <receiver

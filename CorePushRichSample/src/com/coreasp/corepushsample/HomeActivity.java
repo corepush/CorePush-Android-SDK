@@ -44,6 +44,11 @@ public class HomeActivity extends TabActivity {
         
         //通知アイコンを指定
         manager.setIconResourceId(R.drawable.sample_0);
+	
+	//通知スタイルの設定 (デフォルトのスタイルは通知ステータスバー)
+        //ステータスバーに通知する場合は、CorePushManager.NOTIFICATION_STYLE_STATUS_BAR を指定
+        //ダイアログで通知する場合は、CorePushManager.NOTIFICATION_STYLE_DIALOG を指定
+        manager.setNotificationStyle(CorePushManager.NOTIFICATION_STYLE_STATUS_BAR);
         
 //        //アプリ内のユーザーIDを指定
 //        CorePushManager.getInstance().setAppUserId("userid");

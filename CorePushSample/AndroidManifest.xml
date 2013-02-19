@@ -36,6 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+		
+		<!--  プッシュ通知のダイアログ用のアクティビティ -->
+		<activity android:name="com.coreasp.CorePushDialog" android:theme="@android:style/Theme.Dialog">
+		</activity>
         
         <!-- GCM用のブロードキャストレシーバーを設定 -->
         <receiver

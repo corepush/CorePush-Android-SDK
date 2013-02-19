@@ -30,6 +30,11 @@ public class NotificationActivity extends Activity {
         //通知アイコンを指定
         manager.setIconResourceId(R.drawable.ic_launcher);
         
+        //通知スタイルの設定 (デフォルトのスタイルは通知ステータスバー)
+        //ステータスバーに通知する場合は、CorePushManager.NOTIFICATION_STYLE_STATUS_BAR を指定
+        //ダイアログで通知する場合は、CorePushManager.NOTIFICATION_STYLE_DIALOG を指定
+        manager.setNotificationStyle(CorePushManager.NOTIFICATION_STYLE_STATUS_BAR);
+        
         //CORE PUSHにデバイストークンを登録
         manager.registToken(this);
         

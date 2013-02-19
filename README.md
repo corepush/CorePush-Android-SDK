@@ -66,11 +66,28 @@ Core Push Android SDKを利用するための設定を行います。
 Core Push管理画面 にログインし、ホーム画面からAndroidアプリの設定キーを確認してください。 この設定キーをCorePushManager#setConfigKey で指定します。	
 	CorePushManager.getInsance().setConfigKey("XXXXXXXXXX");###SenderId(ProjectId)の指定
 <a href="http://developer.core-asp.com/gcm.php">Project ID（アプリ）とAPI Key（管理画面）の作成方法</a> を参考に プロジェクトIDを取得し、CorePushManager#setSenderIdで指定します。	CorePushManager.getInstance().setSenderId("1234567890");	###通知から起動するアクティビティの指定
-ステータスバーの通知をタップした後に起動するアクティビティのクラスを CorePushManager#setActivity で指定します。
+ステータスバーの通知をタップした後や通知時のダイアログの表示をタップした後に起動するアクティビティのクラスを CorePushManager#setActivity で指定します。
 	CorePushManager.getInstance().setActivity(NotificationActivity.class);
 ###通知アイコンの指定
-通知時のステータスバーに表示されるアイコンのリソースIDを指定します。
+通知時のステータスバーあるいは通知時のダイアログに表示されるアイコンのリソースIDを指定します。
 	CorePushManager.getInstance().setIconResourceId(R.drawable.ic_launcher);
+
+###通知スタイルの指定
+
+ステータスバーに通知するかダイアログで通知するか通知スタイルを指定します。
+(通知スタイルを指定しない場合は、ステータスバーに通知します。)
+
+ステータスバーに通知したい場合は CorePushManager.NOTIFICATION_STYLE_STATUS_BAR を CorePushManager#setNotificationStyle で指定します。
+
+       manager.setNotificationStyle(CorePushManager.NOTIFICATION_STYLE_STATUS_BAR);
+       
+ダイアログで通知したい場合は、CorePushManager.NOTIFICATION_STYLE_DIALOG をCorePushManager#setNotificationStyle で指定します。
+       
+       manager.setNotificationStyle(CorePushManager.NOTIFICATION_STYLE_DIALOG);
+
+また、ApplicationManifest.xml に 通知ダイアログのアクティビティを宣言する必要があります。
+
+		<activity android:name="com.coreasp.CorePushDialog" android:theme="@android:style/Theme.Dialog">		</activity>	
 ##デバイスの通知登録解除
 デバイスが通知を受信できるようにするには、CORE PUSH にデバイストークンを送信します。またデバイスが通知を受信できないようにするには、CORE PUSH からデバイストークンを削除します。
 
