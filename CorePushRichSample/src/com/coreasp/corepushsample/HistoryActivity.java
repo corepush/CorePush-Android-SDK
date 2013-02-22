@@ -63,11 +63,12 @@ public class HistoryActivity extends ListActivity implements CorePushNotificatio
 		ArrayList<CorePushNotificationHistoryModel> historyModelList = (ArrayList<CorePushNotificationHistoryModel>) CorePushNotificationHistoryManager.getNotificationHistoryModelList();
 		for (int i = 0; i < historyModelList.size(); i++) {
 			CorePushNotificationHistoryModel historyModel = (CorePushNotificationHistoryModel) historyModelList.get(i);
+			String title = historyModel.getTitle();
 			String message = historyModel.getMessage();
 			String regDate = historyModel.getRegDate();
 			
-			// 「通知メッセージ : 通知日時」の形式のテキストを設定
-			String text = message + " : " + regDate;
+			// 「通知タイトル : 通知メッセージ : 通知日時」の形式のテキストを設定
+			String text = title + " : " +  message + " : " + regDate;
 			adapter.add(text);
 ;		}
 		
