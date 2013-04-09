@@ -48,9 +48,9 @@
         <activity android:name=".HistoryActivity"/>
 		
         <!--  プッシュ通知のダイアログ用のアクティビティ -->
-		<activity android:name="com.coreasp.CorePushDialog" android:theme="@android:style/Theme.Dialog">
-		</activity>
-
+	    <activity android:name="com.coreasp.CorePushDialog" android:theme="@android:style/Theme.Dialog"
+              android:launchMode="singleInstance" android:excludeFromRecents="true">
+	    </activity>
         
         <!-- GCM用のブロードキャストレシーバーを設定 -->
         <receiver

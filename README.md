@@ -85,9 +85,13 @@ Core Push Android SDKを利用するための設定を行います。
        
        manager.setNotificationStyle(CorePushManager.NOTIFICATION_STYLE_DIALOG);
 
+ステータスバーとダイアログで同時に通知したい場合は、CorePushManager.NOTIFICATION_STYLE_DIALOG_AND_STATUS_BAR をCorePushManager#setNotificationStyle で指定します。
+
+       manager.setNotificationStyle(CorePushManager.NOTIFICATION_STYLE_DIALOG_AND_STATUS_BAR);   
+
 また、ApplicationManifest.xml に 通知ダイアログのアクティビティを宣言する必要があります。
 
-		<activity android:name="com.coreasp.CorePushDialog" android:theme="@android:style/Theme.Dialog">		</activity>	
+		<activity android:name="com.coreasp.CorePushDialog" android:theme="@android:style/Theme.Dialog" android:launchMode="singleInstance" android:excludeFromRecents="true">		</activity>	
 ##デバイスの通知登録解除
 デバイスが通知を受信できるようにするには、CORE PUSH にデバイストークンを送信します。またデバイスが通知を受信できないようにするには、CORE PUSH からデバイストークンを削除します。
 
