@@ -81,6 +81,14 @@ Core Push Android SDKを利用するための設定を行います。
 
        manager.setNotificationStyle(CorePushManager.NOTIFICATION_STYLE_STATUS_BAR);
        
+※ステータスバーで通知を複数件表示するか、最新の一件を表示するか設定する事ができます
+
+    // 最新の一件を表示
+    manager.setCollapsed(true);
+    // 複数件表示
+    manager.setCollapsed(false);
+
+       
 ダイアログで通知したい場合は、CorePushManager.NOTIFICATION_STYLE_DIALOG をCorePushManager#setNotificationStyle で指定します。
        
        manager.setNotificationStyle(CorePushManager.NOTIFICATION_STYLE_DIALOG);
