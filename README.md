@@ -11,7 +11,53 @@ CORE PUSH：<a href="http://core-asp.com">http://core-asp.com</a>
 
 CORE PUSH Developer（開発者向け）：<a href="http://developer.core-asp.com">http://developer.core-asp.com</a>##動作条件
 * GCM方式による通知はAndroid2.2以上が動作対象になります。* SDK/Eternal/gcm.jar をプロジェクトのlibsフォルダにコピーしてください。* SDK/corepush.jar を プロジェクトの libsフォルダにコピーしてください。
-* リッチ通知の動作は、サンプルのCorePushRichSampleプロジェクトでご確認できます。##アプリの通知設定
+* リッチ通知の動作は、サンプルのCorePushRichSampleプロジェクトでご確認できます。
+
+## Android6の対応について
+
+Android6.0以降より、アプリ実行時にパーミッションの使用を許諾・拒否するRuntime Permissionの仕組みが
+導入されました。これにより、事前に許諾していないパーミッションを扱うAPIを呼び出した場合、アプリがクラッシュします。
+
+CorePush SDKでは、連絡先にアクセスするContactsパーミッショングループと位置情報を取得するLocationパーミッショングループを特定の条件において必要としています。
+
+### Contactsパーミッショングループについて
+
+Android4.0.4未満の端末でGCMを動作させるために、以下のGET_ACCOUNTSのパーミッションの宣言を必要としています。
+
+Android4.0.4以降では、GET_ACCOUNTSのパーミッションがなくともGCMは動作するため、以下のパーミッションの宣言は必要ありません。
+
+```
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+````
+
+Android6.0以降の端末において、GET_ACCOUNTSのパーミッションの宣言が記述されている場合は、アプリのリクエストされた権限にContactsパーミッションが含まれます。ただし、CorePush SDK内部で使用していないパーミッションのため、Contactsパーミッションが未許諾の状態においてもクラッシュは発生しません。
+
+
+### Locationパーミッショングループについて
+
+CorePushManager#reportCurrentLocationを使用して現在地情報の送信をリクエストしている場合に、以下の位置情報取得のパーミッションの宣言を必要としています。
+
+```
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+```
+
+Android6.0以降の端末において、位置情報取得のパーミッションが未許諾の場合は、実行時にクラッシュします。そのため、CorePushManager#reportCurrentLocationを呼び出す前に、Locationパーミッショングループ(android.permission-group.LOCATION)の許諾の有無を確認し、許諾を得ていない場合は、必要に応じて権限のリクエストを行ってください。
+
+## Google Play Servicesに対応したSDKについて
+<p>
+現在、Google Play Serviceに対応したSDKの開発を行っており、3月中の公開を予定としています。
+</p>
+<p>公開予定の内容は以下になります。</p>
+<ul>
+<li>SDK</li>
+<li>ドキュメント</li>
+<li>Eclipse用サンプルプロジェクト</li>
+<li>AndroidStudio用サンプルプロジェクト</li>
+</ul>
+
+##アプリの通知設定
 
 Core Push Android SDKを利用するための設定を行います。
 
